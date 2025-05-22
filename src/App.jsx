@@ -8,7 +8,7 @@ const App = () => {
   const [result, setResult] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:4100/api/v1/quiz")
+    fetch(import.meta.env.VITE_BACKEND_QUIZ_URL + "/quiz")
       .then((res) => res.json())
       .then((data) => setQuestions(data.data.questions));
   }, []);
