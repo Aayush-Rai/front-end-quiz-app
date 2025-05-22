@@ -22,23 +22,24 @@ const App = () => {
       return;
     }
 
-    const res = await fetch("http://localhost:4100/api/v1/quiz/submit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ questionId: question.id, selectedOptionId }),
-    }); 
+    const res = await fetch(
+      import.meta.env.VITE_BACKEND_QUIZ_URL + "/quiz/submit",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ questionId: question.id, selectedOptionId }),
+      }
+    );
 
     const data = await res.json();
-    setResult(data.result);;
+    setResult(data.result);
 
-  
-    await fetch("http://localhost:4200/api/notify", {
+    await fetch(import.meta.env.VITE_BACKEND_QUIZ_URL + "/notify", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message: `Your answer is ${data.result}` }),
     });
 
-    
     if (data.result === "correct") {
       toast.success("✅ Correct Answer!");
     } else {
@@ -69,7 +70,16 @@ const App = () => {
           <label htmlFor={opt.id}>{opt.text}</label>
         </div>
       ))}
-      <button onClick={handleSubmit} style={{ marginTop: "10px" , border:"2px black solid", borderRadius:"8px", color: "red", cursor:"pointer"}}>
+      <button
+        onClick={handleSubmit}
+        style={{
+          marginTop: "10px",
+          border: "2px black solid",
+          borderRadius: "8px",
+          color: "red",
+          cursor: "pointer",
+        }}
+      >
         Submit
       </button>
     </div>
